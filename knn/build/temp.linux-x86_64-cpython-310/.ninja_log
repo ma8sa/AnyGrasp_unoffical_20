@@ -1,0 +1,3 @@
+# ninja log v5
+0	3177	1747685479367670070	/Work/graspness_unofficial/knn/build/temp.linux-x86_64-cpython-310/Work/graspness_unofficial/knn/src/cuda/knn.o	d09c777dcabaa8ce
+0	17208	1747685698582410169	/Work/graspness_unofficial/knn/build/temp.linux-x86_64-cpython-310/Work/graspness_unofficial/knn/src/cpu/knn_cpu.o	3a507f3420cfa42
