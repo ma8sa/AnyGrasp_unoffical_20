@@ -4,4 +4,7 @@
 *json
 *jpg
 *mat
-dataset/data
+./pointnet2/build
+./dataset/data
+**/build/
+**/__pycache__/
