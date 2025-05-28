@@ -62,10 +62,7 @@ def inference():
                                    voxel_size=cfgs.voxel_size, remove_outlier=True, augment=False, load_label=False)
     print('Test dataset length: ', len(test_dataset))
 
-    input()
     scene_list = test_dataset.scene_list()
-    print(scene_list)
-    input()
     test_dataloader = DataLoader(test_dataset, batch_size=cfgs.batch_size, shuffle=False,
                                  num_workers=0, worker_init_fn=my_worker_init_fn, collate_fn=minkowski_collate_fn)
     print('Test dataloader length: ', len(test_dataloader))
@@ -83,7 +80,10 @@ def inference():
     net.eval()
     tic = time.time()
     for batch_idx, batch_data in enumerate(test_dataloader):
-        print(batch_idx)
+
+        print(batch_data)
+        print(type(batch_data['coors']))
+        input()
         for key in batch_data:
             if 'list' in key:
                 for i in range(len(batch_data[key])):
@@ -95,6 +95,10 @@ def inference():
         # Forward pass
         with torch.no_grad():
             print(f"input what goes in {batch_data.keys()} ")
+
+            print(batch_data['point_clouds'].shape)
+            print(batch_data['coors'].shape)
+            print(batch_data['feats'].shape)
             input()
             
             #for k,v in batch_data.items():
@@ -102,6 +106,9 @@ def inference():
             #    input()
             end_points = net(batch_data)
             #print(f" end points {end_points}, shape {end_points.size()}")
+            print(f"whats inside endpoints {end_points}")
+            print(f"{end_points.keys()}")
+            input()
             #for k,v in end_points.items():
             #    print(f" end points key {k}, val {v}, {v.size()}")
             #    input()

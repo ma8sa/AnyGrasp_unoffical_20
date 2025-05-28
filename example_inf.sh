@@ -1,0 +1,2 @@
+#CUDA_VISIBLE_DEVICES=4 python test.py --camera kinect --dump_dir ./ --checkpoint_path minkuresunet_realsense.tar --batch_size 1 --dataset_root /data3/graspnet --infer --eval --collision_thresh -1
+python example.py  --dump_dir ./ --depth_path ./dataset/data/scenes/scene_0004/realsense/depth/0000.png --mask_path dataset/data/scenes/scene_0004/realsense/label/0000.png --camera_path ./dataset/data/scenes/scene_0004/realsense/camera_intrinsic/0000.json --checkpoint_path minkuresunet_realsense.tar  --dataset_root ./dataset/data/ 

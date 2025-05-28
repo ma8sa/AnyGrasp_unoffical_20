@@ -11,7 +11,9 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 sys.path.append(ROOT_DIR)
 # sys.path.append(os.path.join(ROOT_DIR, 'knn'))
 
-from knn.knn_modules import knn
+#from knn.knn_modules import knn
+import pytorch3d
+from pytorch3d.ops import knn
 from loss_utils import GRASP_MAX_WIDTH, batch_viewpoint_params_to_matrix, \
     transform_point_cloud, generate_grasp_views
 
@@ -52,7 +54,8 @@ def process_grasp_labels(end_points):
             # assign views
             grasp_views_ = grasp_views.transpose(0, 1).contiguous().unsqueeze(0)
             grasp_views_trans_ = grasp_views_trans.transpose(0, 1).contiguous().unsqueeze(0)
-            view_inds = knn(grasp_views_trans_, grasp_views_, k=1).squeeze() - 1
+            #view_inds = knn(grasp_views_trans_, grasp_views_, k=1).squeeze() - 1
+            dist_,view_inds,nn_ = knn.knn_points(grasp_views_.permute(0,2,1),grasp_views_trans_.permute(0,2,1),  K=1)
             grasp_views_rot_trans = torch.index_select(grasp_views_rot_trans, 0, view_inds)  # (V, 3, 3)
             grasp_views_rot_trans = grasp_views_rot_trans.unsqueeze(0).expand(num_grasp_points, -1, -1,
                                                                               -1)  # (Np, V, 3, 3)
@@ -72,7 +75,8 @@ def process_grasp_labels(end_points):
         # compute nearest neighbors
         seed_xyz_ = seed_xyz.transpose(0, 1).contiguous().unsqueeze(0)  # (1, 3, Ns)
         grasp_points_merged_ = grasp_points_merged.transpose(0, 1).contiguous().unsqueeze(0)  # (1, 3, Np')
-        nn_inds = knn(grasp_points_merged_, seed_xyz_, k=1).squeeze() - 1  # (Ns)
+        #nn_inds = knn(grasp_points_merged_, seed_xyz_, k=1).squeeze() - 1  # (Ns)
+        dist_,nn_inds,nn_ = knn.knn_points(seed_xyz_.permute(0,2,1),grasp_points_merged_.permute(0,2,1),  K=1)
 
         # assign anchor points to real points
         grasp_points_merged = torch.index_select(grasp_points_merged, 0, nn_inds)  # (Ns, 3)

@@ -33,3 +33,27 @@ RUN rm -rf /var/lib/apt/lists/*
 ENV MAX_JOBS=4
 RUN git clone --recursive "https://github.com/NVIDIA/MinkowskiEngine"
 RUN cd MinkowskiEngine; python setup.py install --force_cuda --blas=openblas
+
+
+# install open3ed
+RUN apt-get update
+RUN apt-get install vim -y
+
+WORKDIR /app
+
+# Copy requirements.txt first to leverage Docker layer caching
+COPY requirements.txt .
+
+COPY pointnet2/ ./pointnet2/
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN pip install --no-cache-dir "git+https://github.com/facebookresearch/pytorch3d.git"
+
+WORKDIR /app/pointnet2
+RUN python setup.py install
+
+
+WORKDIR /app/pointnet2
+RUN python setup.py install
