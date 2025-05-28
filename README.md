@@ -4,7 +4,7 @@ This repo is an ubuntu 20.04 port for [graspness_unofficial] https://github.com/
 ## TODO for Repo
 - [x] Add Dockerfile 
 - [ ] Fix Dockerfile
-- [ ] Check Docker
-- [ ] Add GraspnetAPI
+- [x] Check Docker
+- [x] Add GraspnetAPI
 - [ ] Add how to run section
-- [ ] add example script 
+- [x] add example script 
